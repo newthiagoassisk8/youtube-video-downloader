@@ -12,7 +12,10 @@ import { TouchableOpacityProps } from "react-native";
 type ButtonProps = {
   label: string;
   buttonTheme: ButtonTheme;
-  icon?: PhosphorIcon;
+  icon?: {
+    name: PhosphorIcon;
+    size: number;
+  };
 } & TouchableOpacityProps;
 
 export function Button({ label, buttonTheme, icon, ...rest }: ButtonProps) {
@@ -35,12 +38,13 @@ export function Button({ label, buttonTheme, icon, ...rest }: ButtonProps) {
       {icon && (
         <IconContainer>
           <Icon
-            name={icon}
+            name={icon.name}
             color={
               buttonTheme === "DARK"
                 ? theme.COLORS.WHITE
                 : theme.COLORS.GRAY_100
             }
+            size={icon.size}
           />
         </IconContainer>
       )}
