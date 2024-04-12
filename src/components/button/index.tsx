@@ -39,7 +39,7 @@ export function Button({ label, buttonTheme, icon, ...rest }: ButtonProps) {
             color={
               buttonTheme === "DARK"
                 ? theme.COLORS.WHITE
-                : theme.COLORS.GRAY_200
+                : theme.COLORS.GRAY_100
             }
           />
         </IconContainer>

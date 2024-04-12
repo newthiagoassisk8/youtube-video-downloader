@@ -41,8 +41,13 @@ export const ButtonContainer = styled(TouchableOpacity)<ButtonStyleProps>`
   padding-bottom: 16px;
   align-items: "center";
   justify-content: "center";
-  background-color: ${({ active, buttonTheme, theme }) =>
-    getColors(active, buttonTheme, theme).backgroundColor};
+
+  ${({ active, buttonTheme, theme }) => css`
+    background-color: ${getColors(active, buttonTheme, theme).backgroundColor};
+    border: ${buttonTheme === "LIGHT" ? 1 : 0}px;
+    border-color: ${theme.COLORS.GRAY_100};
+    border-radius: 6px;
+  `}
 `;
 
 export const ButtonLabel = styled(Text)<ButtonStyleProps>`
