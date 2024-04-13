@@ -27,5 +27,5 @@ export const ContainerComponent = styled(SafeAreaView)<ContainerStyleProps>`
   flex: 1;
   background-color: ${({ containerTheme = "DEFAULT", theme }) =>
     getBackgroundColor(containerTheme, theme)};
-  padding: 24px;
+  padding-bottom: -1000px;
 `;

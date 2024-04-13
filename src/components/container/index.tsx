@@ -1,19 +1,13 @@
-import {
-  KeyboardAwareScrollView,
-  KeyboardAwareScrollViewProps,
-} from "react-native-keyboard-aware-scroll-view";
+import { SafeAreaViewProps } from "react-native-safe-area-context";
 import { ContainerComponent, ContainerStyleProps } from "./styles";
 
 export function Container({
   containerTheme,
   children,
-  ...rest
-}: ContainerStyleProps & KeyboardAwareScrollViewProps) {
+}: ContainerStyleProps & SafeAreaViewProps) {
   return (
     <ContainerComponent containerTheme={containerTheme}>
-      <KeyboardAwareScrollView {...rest} showsVerticalScrollIndicator={false}>
-        {children}
-      </KeyboardAwareScrollView>
+      {children}
     </ContainerComponent>
   );
 }
