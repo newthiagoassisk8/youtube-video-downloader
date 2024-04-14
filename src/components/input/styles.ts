@@ -35,6 +35,7 @@ export const InputContent = styled(TextInput)<InputCotentStyleProps>`
 `;
 
 export const InputContainer = styled(View)<InputContainerStyleProps>`
+  margin-bottom: 24px;
   ${({ height, width }) => css`
     height: ${calculateSizeRelativeToFixedScreenHeight(height)}px;
     width: ${typeof width === "number"
