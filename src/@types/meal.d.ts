@@ -2,7 +2,7 @@ export declare global {
   interface Meal {
     id: string;
     name: string;
-    decription: string;
+    description: string;
     date: string;
     time: string;
     onDiet: boolean;

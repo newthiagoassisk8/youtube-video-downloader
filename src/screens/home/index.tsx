@@ -23,6 +23,10 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
     navigation.navigate("Statistics", { meals });
   }
 
+  function goToMealCreate() {
+    navigation.navigate("MealCreate");
+  }
+
   useFocusEffect(
     useCallback(() => {
       getMeals();
@@ -45,6 +49,7 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
           buttonTheme="DARK"
           label="Nova refeição"
           icon={{ name: "plus", size: 18 }}
+          onPress={goToMealCreate}
         />
       </Content>
     </Container>

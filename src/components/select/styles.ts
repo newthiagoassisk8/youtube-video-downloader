@@ -4,8 +4,7 @@ import {
 } from "@utils/dimensions";
 import { TouchableOpacity, View } from "react-native";
 import styled, { css, DefaultTheme } from "styled-components/native";
-
-export type Option = "YES-OPTION" | "NO-OPTION";
+import { Option } from "./index";
 
 type StatusIndicatorStylesProps = {
   option: Option;
@@ -43,7 +42,7 @@ function getColors(option: Option, selected: boolean, theme: DefaultTheme) {
 export const SelectContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 `;
 
 export const SelectOption = styled(TouchableOpacity)<SelectOptionStyleProps>`

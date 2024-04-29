@@ -1,21 +1,34 @@
 import { useState } from "react";
 import {
-  Option,
   SelectContainer,
   SelectOption,
   SelectOptionLabel,
   StatusIndicator,
 } from "./styles";
 
-export function Select() {
-  const [optionSelected, setOptionSelected] = useState<Option>("YES-OPTION");
+export type Option = "YES-OPTION" | "NO-OPTION";
+
+type SelectProps = {
+  defaultOption?: Option | "";
+  onSelectOption: (option: Option) => void;
+};
+
+export function Select({ defaultOption = "", onSelectOption }: SelectProps) {
+  const [optionSelected, setOptionSelected] = useState<Option | "">(
+    defaultOption
+  );
+
+  function handleSelectOption(option: Option) {
+    setOptionSelected(option);
+    onSelectOption(option);
+  }
 
   return (
     <SelectContainer>
       <SelectOption
         option="YES-OPTION"
         selected={optionSelected === "YES-OPTION"}
-        onPress={() => setOptionSelected("YES-OPTION")}
+        onPress={() => handleSelectOption("YES-OPTION")}
         activeOpacity={1}
       >
         <StatusIndicator option="YES-OPTION" />
@@ -24,7 +37,7 @@ export function Select() {
       <SelectOption
         option="NO-OPTION"
         selected={optionSelected === "NO-OPTION"}
-        onPress={() => setOptionSelected("NO-OPTION")}
+        onPress={() => handleSelectOption("NO-OPTION")}
         activeOpacity={1}
       >
         <StatusIndicator option="NO-OPTION" />

@@ -1,6 +1,7 @@
 import { calculateSizeRelativeToFixedScreenWidth } from "@utils/dimensions";
 import { TouchableOpacity } from "react-native";
 import styled, { css, DefaultTheme } from "styled-components/native";
+import Constants from "expo-constants";
 
 type CardTheme = "ON_DIET" | "OFF_DIET";
 
@@ -25,7 +26,7 @@ export const PercentageContainer = styled.View`
 
 export const GoBackButton = styled(TouchableOpacity)`
   position: absolute;
-  bottom: 90px;
+  top: 24px;
   left: 24px;
 `;
 
