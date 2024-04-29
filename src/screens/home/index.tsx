@@ -11,12 +11,16 @@ import { useCallback, useState } from "react";
 import { Image } from "react-native";
 import { HomeHeader, MealsTitle } from "./styles";
 
-export function Home() {
+export function Home({ navigation }: RootStackScreenProps<"Home">) {
   const [meals, setMeals] = useState<Meal[]>([]);
 
   async function getMeals() {
     const storedMeals = await mealGetAll();
     setMeals(storedMeals);
+  }
+
+  function goToStatistics() {
+    navigation.navigate("Statistics", { meals });
   }
 
   useFocusEffect(
@@ -34,6 +38,7 @@ export function Home() {
         </HomeHeader>
         <MealPercentageCard
           mealsOnDietPercentage={mealGetOnDietPercentageStatistics(meals)}
+          onPress={goToStatistics}
         />
         <MealsTitle>Refeições</MealsTitle>
         <Button
