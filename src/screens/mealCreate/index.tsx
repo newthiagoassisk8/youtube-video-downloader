@@ -34,7 +34,7 @@ export function MealCreate({ navigation }: RootStackScreenProps<"MealCreate">) {
 
   async function createMeal() {
     await mealCreate({ date, description, name, time: hour, onDiet });
-    navigation.navigate("Home");
+    navigation.navigate("MealFeedback", { onDiet });
   }
 
   return (
