@@ -1,15 +1,18 @@
+import { Button } from "@components/button";
 import {
   KeyboardAwareScrollView,
   KeyboardAwareScrollViewProps,
 } from "react-native-keyboard-aware-scroll-view";
 import {
+  ButtonsContainer,
+  ChildrenContainer,
   ContentComponent,
   ContentStyleProps,
   SecondaryButtonContainer,
 } from "./styles";
-import { Button } from "@components/button";
 
 type ContentProps = {
+  keyboardAware?: boolean;
   primaryButton?: {
     text: string;
     action: () => void;
@@ -23,6 +26,7 @@ type ContentProps = {
 };
 
 export function Content({
+  keyboardAware = true,
   primaryButton,
   secondaryButton,
   rounded,
@@ -31,35 +35,40 @@ export function Content({
 }: ContentProps & ContentStyleProps & KeyboardAwareScrollViewProps) {
   return (
     <ContentComponent rounded={rounded}>
-      <KeyboardAwareScrollView {...rest} showsVerticalScrollIndicator={false}>
-        {children}
-      </KeyboardAwareScrollView>
-      {primaryButton && (
-        <Button
-          buttonTheme="DARK"
-          label={primaryButton.text}
-          icon={
-            primaryButton.icon
-              ? { name: primaryButton.icon, size: 18 }
-              : undefined
-          }
-          onPress={primaryButton.action}
-        />
+      {keyboardAware && (
+        <KeyboardAwareScrollView {...rest} showsVerticalScrollIndicator={false}>
+          {children}
+        </KeyboardAwareScrollView>
       )}
-      {secondaryButton && (
-        <SecondaryButtonContainer>
+      {!keyboardAware && <ChildrenContainer>{children}</ChildrenContainer>}
+      <ButtonsContainer>
+        {primaryButton && (
           <Button
-            buttonTheme="LIGHT"
-            label={secondaryButton.text}
+            buttonTheme="DARK"
+            label={primaryButton.text}
             icon={
-              secondaryButton.icon
-                ? { name: secondaryButton.icon, size: 18 }
+              primaryButton.icon
+                ? { name: primaryButton.icon, size: 18 }
                 : undefined
             }
-            onPress={secondaryButton.action}
+            onPress={primaryButton.action}
           />
-        </SecondaryButtonContainer>
-      )}
+        )}
+        {secondaryButton && (
+          <SecondaryButtonContainer>
+            <Button
+              buttonTheme="LIGHT"
+              label={secondaryButton.text}
+              icon={
+                secondaryButton.icon
+                  ? { name: secondaryButton.icon, size: 18 }
+                  : undefined
+              }
+              onPress={secondaryButton.action}
+            />
+          </SecondaryButtonContainer>
+        )}
+      </ButtonsContainer>
     </ContentComponent>
   );
 }

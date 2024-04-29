@@ -14,7 +14,7 @@ export function MealCard({ meal }: MealCardProps) {
   return (
     <MealCardContainer>
       <MealTime>{meal.time}</MealTime>
-      <Divider />
+      <Divider></Divider>
       <MealName>{meal.name}</MealName>
       <MealStatus onDiet={meal.onDiet} />
     </MealCardContainer>

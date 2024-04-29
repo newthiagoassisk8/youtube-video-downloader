@@ -8,3 +8,7 @@ export function getCurrentTime() {
 export function getTodayDateFromFormat(format: "DD/MM/YYYY" | "DD/MM/YY") {
   return moment().format(format);
 }
+
+export function changeDateFormatTo(date: string, format: string) {
+  return moment(date, "DD/MM/YYYY").format("DD.MM.YY");
+}

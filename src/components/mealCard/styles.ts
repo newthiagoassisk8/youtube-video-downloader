@@ -7,7 +7,6 @@ type MealStatusStylesProps = {
 };
 
 export const MealCardContainer = styled(TouchableOpacity)`
-  flex: 1;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -27,8 +26,8 @@ export const MealTime = styled.Text`
 `;
 
 export const Divider = styled.View`
-  margin-left: 12px;
-  padding-right: 12px;
+  margin: 0 12px;
+  height: 14px;
   border-right-width: 1px;
   border-color: ${({ theme }) => theme.COLORS.GRAY_400};
 `;
@@ -37,7 +36,7 @@ export const MealName = styled.Text`
   width: ${calculateSizeRelativeToFixedScreenWidth(217)}px;
   margin-right: 16px;
   ${({ theme }) => css`
-    font-family: ${theme.FONT_FAMILY.BOLD};
+    font-family: ${theme.FONT_FAMILY.REGULAR};
     font-size: ${theme.FONT_SIZE.BODY_XS}px;
     color: ${theme.COLORS.GRAY_200};
   `}

@@ -6,7 +6,6 @@ type CardContainerStyleProps = {
 };
 
 export const CardContainer = styled.View<CardContainerStyleProps>`
-  flex: 1;
   align-items: center;
   justify-content: center;
   padding: 16px 20px;
