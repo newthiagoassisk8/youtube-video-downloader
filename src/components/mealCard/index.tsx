@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   Divider,
   MealCardContainer,
@@ -11,8 +12,14 @@ type MealCardProps = {
 };
 
 export function MealCard({ meal }: MealCardProps) {
+  const navigation = useNavigation();
+
+  function goToMealInfo() {
+    navigation.navigate("MealInfo", { meal });
+  }
+
   return (
-    <MealCardContainer>
+    <MealCardContainer onPress={goToMealInfo}>
       <MealTime>{meal.time}</MealTime>
       <Divider></Divider>
       <MealName>{meal.name}</MealName>

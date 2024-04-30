@@ -24,6 +24,5 @@ export const ButtonsContainer = styled.View`
 `;
 
 export const SecondaryButtonContainer = styled.View`
-  flex: 1;
   margin-top: 8px;
 `;

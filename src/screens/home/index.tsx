@@ -34,7 +34,7 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
       const storedMeals = await mealGetAll();
       setMeals(storedMeals);
       setLoading(false);
-    }, 2000);
+    }, 1000);
   }
 
   function goToStatistics() {
