@@ -69,3 +69,24 @@ export const TagText = styled.Text`
     color: ${theme.COLORS.GRAY_100};
   `}
 `;
+
+export const DeleteMealModalQuestion = styled.Text`
+  text-align: center;
+  margin-bottom: 12px;
+  ${({ theme }) => css`
+    font-family: ${theme.FONT_FAMILY.BOLD};
+    font-size: ${theme.FONT_SIZE.TITLE_S}px;
+    color: ${theme.COLORS.GRAY_200};
+  `}
+`;
+
+export const DeleteMealModalButtons = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+export const DeleteModalButtonContainer = styled.View`
+  width: ${calculateSizeRelativeToFixedScreenWidth(135)}px;
+`;

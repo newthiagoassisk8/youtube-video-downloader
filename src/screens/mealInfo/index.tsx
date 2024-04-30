@@ -1,9 +1,16 @@
+import { Button } from "@components/button";
 import { Container } from "@components/container";
 import { Content } from "@components/content";
 import { Header } from "@components/header";
+import { Modal, ModalRef } from "@components/modal";
+import { mealRemoveById } from "@storage/meals/mealRemoveById";
+import { useRef } from "react";
 import {
   DateAndTimeTitle,
   DateAndTimeValue,
+  DeleteMealModalButtons,
+  DeleteMealModalQuestion,
+  DeleteModalButtonContainer,
   MealDescription,
   MealName,
   MealNameAndDescriptionContainer,
@@ -18,8 +25,23 @@ export function MealInfo({
 }: RootStackScreenProps<"MealInfo">) {
   const { meal } = route.params;
 
+  const modalRef = useRef<ModalRef>(null);
+
   function goToMealEdit() {
     navigation.navigate("MealEdit", { meal });
+  }
+
+  function showDeleteMealModal() {
+    modalRef.current?.showModal();
+  }
+
+  function hideDeleteMealModal() {
+    modalRef.current?.hideModal();
+  }
+
+  async function deleteMeal() {
+    await mealRemoveById(meal.id);
+    navigation.popToTop();
   }
 
   return (
@@ -36,7 +58,7 @@ export function MealInfo({
         secondaryButton={{
           text: "Excluir refeição",
           icon: "trash",
-          action: () => {},
+          action: showDeleteMealModal,
         }}
       >
         <MealNameAndDescriptionContainer>
@@ -54,6 +76,27 @@ export function MealInfo({
           <TagText>{meal.onDiet ? "dentro da dieta" : "fora da dieta"}</TagText>
         </Tag>
       </Content>
+      <Modal ref={modalRef}>
+        <DeleteMealModalQuestion>
+          Deseja realmente excluir o registro da refeição?
+        </DeleteMealModalQuestion>
+        <DeleteMealModalButtons>
+          <DeleteModalButtonContainer>
+            <Button
+              buttonTheme="LIGHT"
+              label="Cancelar"
+              onPress={hideDeleteMealModal}
+            />
+          </DeleteModalButtonContainer>
+          <DeleteModalButtonContainer>
+            <Button
+              buttonTheme="DARK"
+              label="Sim, excluir"
+              onPress={deleteMeal}
+            />
+          </DeleteModalButtonContainer>
+        </DeleteMealModalButtons>
+      </Modal>
     </Container>
   );
 }
