@@ -18,6 +18,10 @@ export function MealInfo({
 }: RootStackScreenProps<"MealInfo">) {
   const { meal } = route.params;
 
+  function goToMealEdit() {
+    navigation.navigate("MealEdit", { meal });
+  }
+
   return (
     <Container containerTheme={meal.onDiet ? "ON_DIET" : "OFF_DIET"}>
       <Header screenName="Refeição" />
@@ -27,7 +31,7 @@ export function MealInfo({
         primaryButton={{
           text: "Editar refeição",
           icon: "pencil",
-          action: () => {},
+          action: goToMealEdit,
         }}
         secondaryButton={{
           text: "Excluir refeição",
