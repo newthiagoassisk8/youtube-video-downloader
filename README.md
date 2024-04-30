@@ -1,4 +1,4 @@
-# Daily Diet App
+# Daily Diet
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/lizandramalta/daily-diet-app?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/lizandramalta/daily-diet-app?style=for-the-badge)
