@@ -8,6 +8,8 @@
 
 O Daily Diet é um aplicativo simples e intuitivo para cadastro e gerenciamento de refeições, focada em auxiliar os usuários no controle de sua dieta. Para garantir a persistência dos dados e uma experiência de uso offline, as informações das refeições são armazenadas localmente no dispositivo do usuário. Isso permite que os usuários acessem e gerenciem suas refeições mesmo quando estão sem conexão com a internet, garantindo praticidade e conveniência.
 
+<img src="./src/assets/project-image.png" alt="Imagem do projeto">
+
 ## Funcionalidades
 
 - Visualização de Refeições:
