@@ -4,14 +4,8 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Button,
 } from "react-native";
-
-// import {
-//   createDrawerNavigator,
-//   DrawerContentScrollView,
-//   DrawerItemList,
-//   DrawerItem,
-// } from '@react-navigation/drawer';
 
 import { styles } from "./styles";
 import { Feather } from "@expo/vector-icons";
@@ -26,6 +20,20 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
 
   const INPUT_KEY = "";
   const OUTPUT_KEY = "";
+
+  function NotificationsScreen() {
+
+
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Button
+          title="Go back home"
+          disabled
+          onPress={() => navigation.goBack()}
+        />
+      </View>
+    );
+  }
 
   async function handleSubmit() {
     try {
