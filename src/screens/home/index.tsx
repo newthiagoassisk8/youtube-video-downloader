@@ -1,152 +1,99 @@
-import logo from "@assets/logo.png";
-import userPhoto from "@assets/user-photo.png";
-import { Button } from "@components/button";
-import { Container } from "@components/container";
-import { Content } from "@components/content";
-import { MealCard } from "@components/mealCard";
-import { MealPercentageCard } from "@components/mealPercentageCard";
-import { useFocusEffect } from "@react-navigation/native";
-import { mealGetAll } from "@storage/meals/mealGetAll";
-import { mealGetOnDietPercentageStatistics } from "@utils/mealsStatistics";
-import { changeDateFormatTo } from "@utils/timestamp";
-import { useCallback, useState } from "react";
-import { ActivityIndicator, Image, SectionList } from "react-native";
 import {
-  CreateMealButtonContainer,
-  HomeHeader,
-  LoadingContainer,
-  MealSectionTitle,
-  MealsTitle,
-} from "./styles";
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 
-type MealSectionData = {
-  title: string;
-  data: Meal[];
-};
+// import {
+//   createDrawerNavigator,
+//   DrawerContentScrollView,
+//   DrawerItemList,
+//   DrawerItem,
+// } from '@react-navigation/drawer';
+
+import { styles } from "./styles";
+import { Feather } from "@expo/vector-icons";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { OutputShell } from "@components/outputShell/index";
 
 export function Home({ navigation }: RootStackScreenProps<"Home">) {
-  const [meals, setMeals] = useState<Meal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [cliCommand, setCliCommand] = useState("");
+  const [output, setOutput] = useState("");
+  const [isLoading, setIsloading] = useState(false);
 
-  function getMeals() {
-    setLoading(true);
-    setTimeout(async () => {
-      const storedMeals = await mealGetAll();
-      setMeals(storedMeals);
-      setLoading(false);
-    }, 1000);
-  }
+  const INPUT_KEY = "";
+  const OUTPUT_KEY = "";
 
-  function goToStatistics() {
-    navigation.navigate("Statistics", { meals });
-  }
+  async function handleSubmit() {
+    try {
+      setIsloading(true);
 
-  function goToMealCreate() {
-    navigation.navigate("MealCreate");
-  }
-
-  function renderMeals() {
-    const sectionsData: MealSectionData[] = [];
-
-    meals.forEach((meal) => {
-      const formattedDate = changeDateFormatTo(meal.date, "DD.MM.YY");
-      const sectionIndex = sectionsData.findIndex(
-        (section) => section.title === formattedDate
-      );
-      if (sectionIndex !== -1) {
-        sectionsData[sectionIndex].data.push(meal);
-      } else {
-        sectionsData.push({ title: formattedDate, data: [meal] });
-      }
-    });
-
-    sectionsData.sort((section1, section2) => {
-      const [day1, month1, year1] = section1.title.split(".");
-      const [day2, month2, year2] = section2.title.split(".");
-
-      const formattedDate1 = `${year1}${month1}${day1}`;
-      const formattedDate2 = `${year2}${month2}${day2}`;
-
-      if (formattedDate1 > formattedDate2) {
-        return -1;
-      } else if (formattedDate1 < formattedDate2) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-
-    sectionsData.forEach((mealSection) => {
-      mealSection.data.sort((meal1, meal2) => {
-        const [hour1, minute1] = meal1.time.split(":");
-        const [hour2, minute2] = meal2.time.split(":");
-
-        const totalMinutes1 = parseInt(hour1) * 60 + parseInt(minute1);
-        const totalMinutes2 = parseInt(hour2) * 60 + parseInt(minute2);
-
-        if (totalMinutes1 > totalMinutes2) {
-          return -1;
-        } else if (totalMinutes1 < totalMinutes2) {
-          return 1;
-        } else {
-          return 0;
-        }
+      const response = await fetch("http://192.168.0.27:8000/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ command: cliCommand }),
       });
-    });
 
-    return (
-      <SectionList
-        sections={sectionsData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <MealCard meal={item} />}
-        renderSectionHeader={({ section }) => (
-          <MealSectionTitle>{section.title}</MealSectionTitle>
-        )}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          marginTop: -24,
-        }}
-        stickySectionHeadersEnabled={false}
-      />
-    );
+      const data = await response.json();
+      const result = data.returncode === 0 ? data.stdout : data.stderr;
+
+      setOutput(result);
+
+      await AsyncStorage.setItem(INPUT_KEY, cliCommand);
+      await AsyncStorage.setItem(OUTPUT_KEY, result);
+    } catch (error) {
+      const errMsg = "Erro ao enviar comando: " + error;
+      setOutput(errMsg);
+      await AsyncStorage.setItem(OUTPUT_KEY, errMsg);
+    } finally {
+      setIsloading(false);
+    }
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      getMeals();
-    }, [])
-  );
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const savedCommand = await AsyncStorage.getItem("");
+        const savedOutput = await AsyncStorage.getItem("");
+
+        if (savedCommand) setCliCommand(savedCommand);
+        if (savedOutput) setOutput(savedOutput);
+      } catch (error) {
+        console.error("Erro ao carregar dados salvos:", error);
+      }
+    }
+
+    loadData();
+  }, []);
 
   return (
-    <Container>
-      <Content keyboardAware={false}>
-        <HomeHeader>
-          <Image source={logo} />
-          <Image source={userPhoto} />
-        </HomeHeader>
-        {loading ? (
-          <LoadingContainer>
-            <ActivityIndicator />
-          </LoadingContainer>
-        ) : (
-          <>
-            <MealPercentageCard
-              mealsOnDietPercentage={mealGetOnDietPercentageStatistics(meals)}
-              onPress={goToStatistics}
-            />
-            <MealsTitle>Refeições</MealsTitle>
-            <CreateMealButtonContainer>
-              <Button
-                buttonTheme="DARK"
-                label="Nova refeição"
-                icon={{ name: "plus", size: 18 }}
-                onPress={goToMealCreate}
-              />
-            </CreateMealButtonContainer>
-            {renderMeals()}
-          </>
-        )}
-      </Content>
-    </Container>
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Shell Client</Text>
+
+      <View style={styles.form}>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite o comando CLI"
+          placeholderTextColor="#6B6B6B"
+          value={cliCommand}
+          onChangeText={setCliCommand}
+          keyboardType="default"
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Feather name="check" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
+      {isLoading ? (
+        <ActivityIndicator color={"#fff"} />
+      ) : (
+        <OutputShell message={output}></OutputShell>
+      )}
+    </View>
   );
 }
