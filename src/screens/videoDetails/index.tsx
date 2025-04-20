@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
+import RNFS from "react-native-fs";
 import {
   View,
   Text,
@@ -8,8 +9,10 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
 
-
+// import * as Permissions from 'expo-permissions';
 
 export function VideoDetails({
   navigation,
@@ -20,26 +23,60 @@ export function VideoDetails({
 
   async function downloadVideo() {
     try {
-    //   const downloadDest = `${RNFS.DocumentDirectoryPath}/${video.title}.mp4`;
-    //   const options = {
-    //     fromUrl: video.download_url,
-    //   toFile: downloadDest,
-    //   background: true,
-    //   discretionary: true,
-    //   begin: () => {
-    //     console.log("Iniciando download...");
-    //   }
-    // }
-    // const result = await RNFS.downloadFile(options).promise;
-    // console.log("Download finalizado:", result);
+      setIsloading(true);
+      const filename = `${video.title}.mp4`;
+      const downloadDest = `${FileSystem.documentDirectory}${filename}`;
 
-    // // opcional: mostrar onde o vídeo foi salvo
-    // alert(`Vídeo salvo em: ${downloadDest}`);
+      const downloadResumable = FileSystem.createDownloadResumable(
+        video.download_url,
+        downloadDest,
+        {},
+        (downloadProgress) => {
+          const progress =
+            downloadProgress.totalBytesWritten /
+            downloadProgress.totalBytesExpectedToWrite;
+          console.log(`Progresso do download: ${(progress * 100).toFixed(2)}%`);
+        }
+      );
 
+      const result = await downloadResumable.downloadAsync();
 
-    } catch (error) {
-      const errMsg = "Erro ao enviar comando: " + error;
-      // setOutput(errMsg);
+      if (result) {
+        const { uri } = result;
+        console.log("uri");
+        console.log(uri);
+        console.log("Download concluído em:", uri);
+        const permissionResult = await MediaLibrary.requestPermissionsAsync();
+        console.log(permissionResult)
+
+        if (
+          !permissionResult.granted &&
+          permissionResult.status !== MediaLibrary.PermissionStatus.GRANTED
+        ) {
+          alert("Permissão para acessar a galeria foi negada.");
+          return;
+        }
+
+        try {
+          const asset = await MediaLibrary.createAssetAsync(uri);
+          const album = await MediaLibrary.getAlbumAsync("Download");
+          if (album) {
+            await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+          } else {
+            await MediaLibrary.createAlbumAsync("Download", asset, false);
+          }
+
+          alert("Vídeo salvo na galeria com sucesso!");
+        } catch (saveError) {
+          console.error("Erro ao salvar na galeria:", saveError);
+          alert("Erro ao salvar na galeria.");
+        }
+      } else {
+        console.warn("Download não retornou resultado.");
+      }
+    } catch (error: any) {
+      console.error("Erro ao baixar vídeo:", error?.message || error);
+      alert("Erro ao baixar vídeo: " + (error?.message || error));
     } finally {
       setIsloading(false);
     }
@@ -54,9 +91,7 @@ export function VideoDetails({
           <Text style={styles.subtitle}>
             URL expira em {video.expires_in_minutes} minutos
           </Text>
-          <Text style={styles.subtitle}>
-             {video.download_url}
-          </Text>
+          <Text style={styles.subtitle}>{video.download_url}</Text>
           <View style={styles.controls}>
             {/*TODO: Ajustar o botão de dowaload para que fique a direita no CSS  */}
             {isLoading ? (
