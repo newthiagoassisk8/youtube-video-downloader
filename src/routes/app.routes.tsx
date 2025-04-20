@@ -3,24 +3,18 @@ import { Home } from "@screens/home";
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { MealEdit } from "@screens/mealEdit";
+import { VideoDetails } from "@screens/videoDetails";
+import DownloadResponse from "src/@types/downloadresponse";
 
 
 export type RootStackParamList = {
   Home: undefined;
   MealCreate: undefined;
-  MealEdit: {
-    meal: Meal;
+  VideoDetails: {
+    video: DownloadResponse;
   };
-  MealFeedback: {
-    onDiet: boolean;
-  };
-  MealInfo: {
-    meal: Meal;
-  };
-  Statistics: {
-    meals: Meal[];
-  };
+
+
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
@@ -32,7 +26,7 @@ export function AppRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="Home" component={Home} />
-      <Screen name="MealEdit" component={MealEdit} />
+      <Screen name="VideoDetails" component={VideoDetails} />
     </Navigator>
   );
 }
