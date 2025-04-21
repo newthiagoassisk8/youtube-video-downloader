@@ -10,7 +10,6 @@ import {
 import { styles } from "./styles";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import { OutputShell } from "@components/outputShell/index";
 import DownloadResponse from "src/@types/downloadresponse";
 
 export function Home({ navigation }: RootStackScreenProps<"Home">) {

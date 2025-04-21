@@ -6,7 +6,6 @@ import DownloadResponse from "src/@types/downloadresponse";
 
 export type RootStackParamList = {
   Home: undefined;
-  MealCreate: undefined;
   VideoDetails: {
     video: DownloadResponse;
   };
