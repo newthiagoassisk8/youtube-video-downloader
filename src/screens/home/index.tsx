@@ -35,6 +35,7 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
       });
 
       const data = await response.json();
+
       goToVideoDetail(data);
     } catch (error) {
       const errMsg = "Erro ao enviar comando: " + error;

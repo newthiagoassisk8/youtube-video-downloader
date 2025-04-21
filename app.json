@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "daily-diet-app",
-    "slug": "daily-diet-app",
+    "name": "youtube-video-downloader-app",
     "version": "1.0.0",
+    "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "",
     "userInterfaceStyle": "light",
@@ -21,11 +21,34 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.thiagoassisk8.youtubedownloader",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": ""
     },
+    "expo": {
+      "plugins": [
+        [
+          "expo-media-library",
+          {
+            "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
+            "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+            "isAccessMediaLocationEnabled": true
+          }
+        ]
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "02323607-0d38-4139-a45f-59ad944b82ad"
+      }
+    },
+    "owner": "thiagoassisk8",
     "plugins": [
       "expo-font"
     ]

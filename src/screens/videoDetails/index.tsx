@@ -1,18 +1,18 @@
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import RNFS from "react-native-fs";
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Alert,
   ActivityIndicator,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 
-// import * as Permissions from 'expo-permissions';
+
 
 export function VideoDetails({
   navigation,
@@ -20,6 +20,8 @@ export function VideoDetails({
 }: RootStackScreenProps<"VideoDetails">) {
   const { video } = route.params;
   const [isLoading, setIsloading] = useState(false);
+
+
 
   async function downloadVideo() {
     try {
@@ -40,20 +42,26 @@ export function VideoDetails({
       );
 
       const result = await downloadResumable.downloadAsync();
+      console.log("result")
+      console.log(result)
 
       if (result) {
         const { uri } = result;
-        console.log("uri");
-        console.log(uri);
-        console.log("Download concluído em:", uri);
+
         const permissionResult = await MediaLibrary.requestPermissionsAsync();
-        console.log(permissionResult)
+
+
+
 
         if (
           !permissionResult.granted &&
           permissionResult.status !== MediaLibrary.PermissionStatus.GRANTED
         ) {
-          alert("Permissão para acessar a galeria foi negada.");
+
+
+          Alert.alert(
+            'Permissão para acessar a galeria foi negada.',
+          )
           return;
         }
 
@@ -66,17 +74,18 @@ export function VideoDetails({
             await MediaLibrary.createAlbumAsync("Download", asset, false);
           }
 
-          alert("Vídeo salvo na galeria com sucesso!");
+          Alert.alert("Vídeo salvo na galeria com sucesso!");
         } catch (saveError) {
           console.error("Erro ao salvar na galeria:", saveError);
-          alert("Erro ao salvar na galeria.");
+          Alert.alert("Erro ao salvar na galeria.");
         }
       } else {
         console.warn("Download não retornou resultado.");
       }
     } catch (error: any) {
       console.error("Erro ao baixar vídeo:", error?.message || error);
-      alert("Erro ao baixar vídeo: " + (error?.message || error));
+
+      Alert.alert("Erro ao baixar vídeo: " + (error?.message || error));
     } finally {
       setIsloading(false);
     }
