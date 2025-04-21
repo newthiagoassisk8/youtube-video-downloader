@@ -1,50 +1,44 @@
-# Daily Diet
+# 📲 YouTube Video Downloader App (React Native)
 
-![GitHub repo size](https://img.shields.io/github/repo-size/lizandramalta/daily-diet-app?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/lizandramalta/daily-diet-app?style=for-the-badge)
-![GitHub top language](https://img.shields.io/github/languages/top/lizandramalta/daily-diet-app?style=for-the-badge)
+Este é um aplicativo móvel desenvolvido com **React Native** que atua como cliente para uma API backend que utiliza `yt-dlp` para baixar vídeos do YouTube. O objetivo principal deste projeto é **aprimorar meu conhecimento em React Native**, com foco em navegação, estado, permissões de mídia e integração com recursos nativos do Android.
 
-## Sobre o projeto
+## 🚀 Funcionalidades
 
-O Daily Diet é um aplicativo simples e intuitivo para cadastro e gerenciamento de refeições, focada em auxiliar os usuários no controle de sua dieta. Para garantir a persistência dos dados e uma experiência de uso offline, as informações das refeições são armazenadas localmente no dispositivo do usuário. Isso permite que os usuários acessem e gerenciem suas refeições mesmo quando estão sem conexão com a internet, garantindo praticidade e conveniência.
+- 📥 Permite ao usuário baixar vídeos do YouTube via link ou ID.
+- 💾 Salva os vídeos diretamente na **galeria do dispositivo**, utilizando a biblioteca `expo-media-library`.
+- 🔁 Acompanhamento do progresso de download com **indicador de carregamento**.
+- 🔀 Navegação entre telas com `react-navigation/native-stack`.
 
-<img src="./src/assets/project-image.png" alt="Imagem do projeto">
+## 📡 Backend da Aplicação
 
-## Funcionalidades
+O backend responsável por fazer o download dos vídeos via `yt-dlp` está disponível neste repositório:
 
-- Visualização de Refeições:
-  - Explore suas refeições registradas de forma intuitiva e amigável.
-- Registro de Refeições:
-  - Adicione novas refeições à sua dieta com facilidade.
-- Edição de Refeições:
-  - Faça ajustes nas informações de suas refeições conforme necessário.
-- Exclusão de Refeições:
-  - Remova refeições que não são mais relevantes para sua dieta.
-- Acompanhamento de Métricas:
-  - Visualize métricas importantes relacionadas à sua dieta.
+🔗 [https://github.com/newthiagoassisk8/ytb-api](https://github.com/newthiagoassisk8/ytb-api)
 
-## Tecnologias utilizadas
+Lá você encontrará a documentação da API, exemplos de uso e instruções para rodar o servidor localmente.
 
-- [Yarn](https://yarnpkg.com/)
-- [React Native](https://reactnative.dev/)
-- [Expo](https://expo.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
+## 🛠️ Tecnologias e Conceitos Explorados
 
-## Executando o projeto
+- **React Native com Expo**
+- **Hooks** (`useState`, `setState`)
+- **React Navigation** (`@react-navigation/native-stack`)
+- **expo-media-library** para acesso à mídia e integração com a camada nativa do Android
+- **Permissões em tempo de execução** para salvar arquivos no armazenamento externo
+- Comunicação com API REST que faz uso da biblioteca [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
-Certifique-se de ter o yarn instalado em sua máquina. Além disso, é possível abrir o projeto em um emulador ou através do aplicativo [Expo Go](https://expo.dev/client) no dispositivo físico.
+> A biblioteca `expo-media-library` foi usada para se comunicar com a **camada nativa do Android**, permitindo que o app salve os vídeos diretamente na galeria do telefone.
 
-1. Clone o repositório.
-2. Dentro do diretório do projetem instale as dependências com o comando: `yarn`.
-3. Dentro do diretório do projeto, execute o projeto com o comando: `yarn start`.
-4. Siga as intruções do terminal para conectar com o emulador ou dispositivo físico.
+## 📸 Demonstração
 
-## Contribuição
+Confira abaixo um gif demonstrando o funcionamento do app:
 
-Sinta-se à vontade para contribuir com melhorias ou correções neste projeto. Crie um fork do repositório, faça suas alterações e envie um pull request. Estamos abertos a sugestões!
+![Demonstração do app](gifs/videoDEMO.gif)
 
----
+## ⚙️ Como rodar o projeto
 
-**Desenvolvido por Lizandra Malta - github.com/lizandramalta**
+```bash
+# Instale as dependências
+yarn install
 
-_Este projeto foi desenvolvido como parte do desafio proposto pela Rocketseat._
+# Inicie o projeto
+yarn start
