@@ -89,7 +89,7 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Feather name="search" size={24} color="#fff" />
+          <Feather name="download" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
       <ConfigButton />
