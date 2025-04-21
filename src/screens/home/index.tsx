@@ -1,10 +1,4 @@
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
 
 import { styles } from "./styles";
 import { Feather } from "@expo/vector-icons";
@@ -68,6 +62,7 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
       </TouchableOpacity>
     );
   }
+  // TODO: Descobrir como fazer o carregamento e progresso do download
   if (isLoading) {
     return (
       <View style={styles.container}>

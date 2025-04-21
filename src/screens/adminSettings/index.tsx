@@ -17,6 +17,7 @@ export function AdminSettings({
   const [urlInput, setUrlInput] = useState(apiUrl);
   const [isLoading, setIsLoading] = useState(false);
 
+
   const handleSave = async () => {
     if (!urlInput) return;
 
