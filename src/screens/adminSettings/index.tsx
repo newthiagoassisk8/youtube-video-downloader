@@ -39,7 +39,7 @@ export function AdminSettings({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>⚙️ Painel Administrativo da branch youtube-video-developer</Text>
+      <Text style={styles.title}>⚙️ Painel Administrativo da branch to understand git cli</Text>
 
       <Text style={styles.label}>URL da API</Text>
       <TextInput
