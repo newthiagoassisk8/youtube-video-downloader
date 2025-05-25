@@ -8,7 +8,7 @@ import DownloadResponse from "src/@types/downloadresponse";
 import Loader from "@components/loader";
 
 export function Home({ navigation }: RootStackScreenProps<"Home">) {
-  const [videoId, setvideoId] = useState("");
+  const [url, setUrl] = useState("");
   const [output, setOutput] = useState("");
   const [isLoading, setIsloading] = useState(false);
   const { apiUrl } = useApiConfig();
@@ -20,9 +20,26 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
   function goToSettings() {
     navigation.navigate("AdminSettings");
   }
+  function extractYouTubeVideoId(url: string): {
+    videoId: string | null;
+    isValid: boolean;
+  } {
+    const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&#?\s]+)/;
+    const match = url.match(regex);
+
+    if (match && match[1]) {
+      return { videoId: match[1], isValid: true };
+    }
+
+    return { videoId: null, isValid: false };
+  }
 
   async function handleSubmit() {
     try {
+      const video = extractYouTubeVideoId(url);
+      // console.log("Video ID:", video.videoId);
+      console.log(video);
+
       setIsloading(true);
 
       const response = await fetch(`${apiUrl}/download`, {
@@ -30,10 +47,11 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: videoId }),
+        body: JSON.stringify({ id: video.videoId }),
       });
 
       const data = await response.json();
+      console.log("Response data:", data);
 
       goToVideoDetail(data);
     } catch (error) {
@@ -77,9 +95,9 @@ export function Home({ navigation }: RootStackScreenProps<"Home">) {
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="ID do vídeo do youtube"
+          placeholder="URL do vídeo do youtube"
           placeholderTextColor="#6B6B6B"
-          onChangeText={setvideoId}
+          onChangeText={setUrl}
           keyboardType="default"
         />
 
